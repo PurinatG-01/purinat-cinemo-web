@@ -11,6 +11,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite"
 import CheckIcon from "@mui/icons-material/Check"
 import { useAppDispatch } from "../store/hooks"
 import { toggleFavoriteMovie } from "../store/movie"
+import useModal from "../hooks/useModal"
+import MovieDetail from "./MovieDetail"
 
 const MovieCardContainer = styled(Card)`
   transition: all 0.3s ease-in-out;
@@ -66,8 +68,8 @@ const MovieCardActions = styled(CardActions)`
 
 export default function MovieCard(props: Props) {
   const { title_en, poster_url, synopsis_en, isFavorite, id } = props
+  const { openModal } = useModal()
   const dispatch = useAppDispatch()
-
 
   const toggleFavorite = (movieId: number) => {
     dispatch(toggleFavoriteMovie(movieId))
@@ -80,7 +82,7 @@ export default function MovieCard(props: Props) {
 
   const onClickCard = (e: React.MouseEvent) => {
     e.stopPropagation()
-    // TODO: open movie modal
+    openModal(<MovieDetail id={id} />)
   }
 
   return (

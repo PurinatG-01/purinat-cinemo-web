@@ -13,7 +13,8 @@ import { Divider, Typography } from "@mui/material"
 import { NavbarConfigList, ROUTE_PATH } from "../assets/config/route"
 import LogoutIcon from "@mui/icons-material/Logout"
 import useLogin from "../hooks/useLogin"
-import { Link, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import GlobalModal from "../components/GlobalModal"
 
 const DashboardLayoutContainer = styled.div`
   display: flex;
@@ -45,15 +46,6 @@ const DrawerButton = styled(Button)`
   &:hover {
     background: #fff;
   }
-`
-
-const OverLink = styled(Link)`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 20;
 `
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
@@ -123,6 +115,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
       >
         Cinemo Web
       </Typography>
+      <GlobalModal />
       <DashboardLayoutInnerContainer>{children}</DashboardLayoutInnerContainer>
     </DashboardLayoutContainer>
   )
