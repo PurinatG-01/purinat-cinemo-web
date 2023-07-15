@@ -29,7 +29,7 @@ const DashboardLayoutInnerContainer = styled.section`
 `
 
 const DrawerButton = styled(Button)`
-  position: absolute;
+  position: fixed;
   top: 8px;
   left: 8px;
   z-index: 10;
