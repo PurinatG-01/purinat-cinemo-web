@@ -5,7 +5,6 @@ import TextField from "@mui/material/TextField"
 import useLogin from "../hooks/useLogin"
 import Alert from "@mui/material/Alert"
 import styled from "styled-components"
-import { useNavigate } from "react-router-dom";
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -34,9 +33,8 @@ const SubmitButton = styled(Button)`
     `}
 `
 export default function Login() {
-    const navigate = useNavigate();
-    const { login, isLoading: isLoginLoading } = useLogin()
-    const [username, setUsername] = useState<string>("")
+  const { login, isLoading: isLoginLoading } = useLogin()
+  const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [error, setError] = useState<string>("")
 
@@ -55,15 +53,9 @@ export default function Login() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!!username && !!password) {
-      login(username, password)
-        .then((data) => {
-          // TODO: store to redux and navigate to dashboard
-          console.log("> data :", data)
-          navigate("/dashboard");
-        })
-        .catch((error: Error) => {
-          setError(error.message)
-        })
+      login(username, password).catch((error: Error) => {
+        setError(error.message)
+      })
     }
   }
 
@@ -72,7 +64,7 @@ export default function Login() {
       <Form onSubmit={onSubmit}>
         <PageTitle variant="h4">Cinemo Web</PageTitle>
         <TextField
-          id="outlined-basic"
+          id="username-input"
           onChange={(e) => {
             onInputChange("username", e.target.value)
           }}
@@ -81,7 +73,7 @@ export default function Login() {
           value={username}
         />
         <TextField
-          id="outlined-basic"
+          id="password-input"
           type="password"
           label="Password"
           variant="outlined"
@@ -90,7 +82,11 @@ export default function Login() {
             onInputChange("password", e.target.value)
           }}
         />
-        <SubmitButton variant="contained" type="submit"  disabled={isLoginLoading}>
+        <SubmitButton
+          variant="contained"
+          type="submit"
+          disabled={isLoginLoading}
+        >
           Sign in
         </SubmitButton>
         {!!error && <Alert severity="error">{error}</Alert>}
