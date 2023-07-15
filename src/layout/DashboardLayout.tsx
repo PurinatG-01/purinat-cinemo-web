@@ -10,10 +10,10 @@ import ListItemIcon from "@mui/material/ListItemIcon"
 import ListItemText from "@mui/material/ListItemText"
 import MenuIcon from "@mui/icons-material/Menu"
 import { Divider, Typography } from "@mui/material"
-import { NavbarConfigList } from "../config/route"
+import { NavbarConfigList, ROUTE_PATH } from "../assets/config/route"
 import LogoutIcon from "@mui/icons-material/Logout"
 import useLogin from "../hooks/useLogin"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 const DashboardLayoutContainer = styled.div`
   display: flex;
@@ -47,6 +47,15 @@ const DrawerButton = styled(Button)`
   }
 `
 
+const OverLink = styled(Link)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 20;
+`
+
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
@@ -60,8 +69,12 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
   const onClickLogout = () => {
     logout()
     setTimeout(() => {
-      navigate("/login")
-    }, 300)
+      navigate(ROUTE_PATH.LOGIN)
+    }, 0)
+  }
+
+  const onClickNavItem = (path: string) => () => {
+    navigate(path)
   }
 
   const list = () => (
@@ -72,10 +85,9 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
       onKeyDown={toggleDrawer}
     >
       <List>
-        {/* TODO: Update list */}
         {NavbarConfigList.map((item, index) => (
           <ListItem key={index} disablePadding>
-            <ListItemButton>
+            <ListItemButton onClick={onClickNavItem(item.path)}>
               <ListItemIcon>
                 <item.icon />
               </ListItemIcon>

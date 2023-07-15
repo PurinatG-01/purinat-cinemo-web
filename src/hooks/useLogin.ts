@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { validateLogin } from "../config/mock"
+import { validateLogin } from "../assets/config/mock"
 import { useAppDispatch } from "../store/hooks"
 import { login as storeLogin, logout as storeLogout } from "../store/user"
 

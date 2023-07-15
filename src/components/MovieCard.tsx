@@ -8,7 +8,9 @@ import Button from "@mui/material/Button"
 import { Movie } from "../model/movie"
 import styled from "styled-components"
 import FavoriteIcon from "@mui/icons-material/Favorite"
-import { useEffect, useState } from "react"
+import CheckIcon from "@mui/icons-material/Check"
+import { useAppDispatch } from "../store/hooks"
+import { toggleFavoriteMovie } from "../store/movie"
 
 const MovieCardContainer = styled(Card)`
   transition: all 0.3s ease-in-out;
@@ -47,14 +49,11 @@ const FavoriteBadge = styled.div`
   z-index: 10;
 `
 const FavoriteButton = styled(Button)`
-  color: #fa8397;
   padding: 8px 16px;
-  border: 1px solid #fa8397;
-  &:hover {
-    color: #fff;
-    background-color: #fa8397;
-    border-color: #fa8397;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
   &:focus {
     outline: none;
   }
@@ -65,38 +64,36 @@ const MovieCardActions = styled(CardActions)`
   padding-top: 16px;
 `
 
-export default function MovieCard(props: MovieCardProps) {
-  const { title_en, poster_url, synopsis_en, isFavorite } = props
-  const [isFavorited, setIsFavorited] = useState<boolean>(!!isFavorite)
+export default function MovieCard(props: Props) {
+  const { title_en, poster_url, synopsis_en, isFavorite, id } = props
+  const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    setIsFavorited(!!isFavorite)
-  }, [isFavorite])
+
+  const toggleFavorite = (movieId: number) => {
+    dispatch(toggleFavoriteMovie(movieId))
+  }
 
   const onClickFavorite = (e: React.MouseEvent) => {
     e.stopPropagation()
-    // TODO: update movie store => favorite list
-    console.log("click favorite")
+    toggleFavorite(id)
   }
 
   const onClickCard = (e: React.MouseEvent) => {
     e.stopPropagation()
     // TODO: open movie modal
-    console.log("click card")
   }
 
   return (
     <MovieCardContainer onClick={onClickCard}>
-      {isFavorited && (
+      {isFavorite && (
         <FavoriteBadge>
           <FavoriteIcon style={{ color: "pink" }} />
         </FavoriteBadge>
       )}
       <CardMedia
         sx={{
-          minHeight: 140,
-          maxHeight: 240,
-          height: "100%",
+          height: "100vh",
+          maxHeight: "360px",
           borderTopLeftRadius: 4,
           borderTopRightRadius: 4,
         }}
@@ -111,7 +108,12 @@ export default function MovieCard(props: MovieCardProps) {
           {synopsis_en}
         </MovieCardDescription>
         <MovieCardActions>
-          <FavoriteButton size="small" onClick={onClickFavorite}>
+          <FavoriteButton
+            size="small"
+            onClick={onClickFavorite}
+            variant={isFavorite ? "contained" : "outlined"}
+          >
+            {isFavorite ? <CheckIcon /> : <FavoriteIcon />}
             Favorite
           </FavoriteButton>
         </MovieCardActions>
@@ -120,8 +122,8 @@ export default function MovieCard(props: MovieCardProps) {
   )
 }
 
-interface MovieExtend extends Movie {
+export interface MovieCardProps extends Movie {
   isFavorite?: boolean
 }
 
-type MovieCardProps = React.PropsWithChildren<MovieExtend>
+type Props = React.PropsWithChildren<MovieCardProps>

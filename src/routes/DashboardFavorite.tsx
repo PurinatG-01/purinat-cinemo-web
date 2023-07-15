@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from "react"
+import DashboardLayout from "../layout/DashboardLayout"
+import { useNavigate } from "react-router-dom"
+import { ROUTE_PATH } from "../assets/config/route"
 import { useAppSelector } from "../store/hooks"
 import { getJWT } from "../store/user"
-import { useNavigate } from "react-router-dom"
-import DashboardLayout from "../layout/DashboardLayout"
 import useMovie from "../hooks/useMovie"
-import Alert from "@mui/material/Alert"
 import MovieGridList from "../components/MovieGridList"
-import { ROUTE_PATH } from "../assets/config/route"
+import { Alert } from "@mui/material"
 
-export default function Dashboard() {
-  const jwt = useAppSelector(getJWT)
+export default function DashboardFavorite() {
   const navigate = useNavigate()
+  const jwt = useAppSelector(getJWT)
   const [queryError, setQueryError] = useState<string>("")
+
   const {
-    isLoading: isMovieListLoading,
+    favoriteMovieList,
     queryMovieList,
-    movieList,
+    isLoading: isMovieListLoading,
   } = useMovie()
 
   useEffect(() => {
@@ -38,8 +39,8 @@ export default function Dashboard() {
         >
           {queryError}
         </Alert>
-      ) : movieList.length > 0 ? (
-        <MovieGridList movieList={movieList} />
+      ) : favoriteMovieList.length > 0 ? (
+        <MovieGridList movieList={favoriteMovieList} />
       ) : (
         <Alert
           severity="info"

@@ -8,6 +8,7 @@ import Alert from "@mui/material/Alert"
 import styled from "styled-components"
 import { useAppSelector } from "../store/hooks"
 import { getJWT } from "../store/user"
+import { ROUTE_PATH } from "../assets/config/route"
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -45,7 +46,7 @@ export default function Login() {
 
   useEffect(() => {
     if (!jwt) return
-    navigate("/")
+    navigate(ROUTE_PATH.HOME)
   }, [jwt])
 
   const onInputChange = (type: string, value: string) => {
