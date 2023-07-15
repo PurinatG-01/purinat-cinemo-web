@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { validateLogin } from "../config/mock"
 import { useAppDispatch } from "../store/hooks"
-import { setUserToken } from "../store/user"
+import { login as storeLogin, logout as storeLogout } from "../store/user"
 
 const queryLogin = async (username: string, password: string) => {
   // Mocking for an actual API call
@@ -19,7 +19,7 @@ export default function useLogin() {
     setIsLoading(true)
     try {
       const token = await queryLogin(username, password)
-      dispatch(setUserToken(token))
+      dispatch(storeLogin(token))
       return Promise.resolve({ token })
     } catch (error) {
       console.error(error)
@@ -28,5 +28,9 @@ export default function useLogin() {
       setIsLoading(false)
     }
   }
-  return { login, isLoading }
+
+  const logout = () => {
+    dispatch(storeLogout())
+  }
+  return { login, logout, isLoading }
 }

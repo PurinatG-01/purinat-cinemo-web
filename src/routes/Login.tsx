@@ -45,7 +45,7 @@ export default function Login() {
 
   useEffect(() => {
     if (!jwt) return
-    navigate("/dashboard")
+    navigate("/")
   }, [jwt])
 
   const onInputChange = (type: string, value: string) => {
@@ -66,7 +66,7 @@ export default function Login() {
       login(username, password)
         .then((data) => {
           if (data.token) {
-            navigate("/dashboard")
+            navigate("/")
           }
         })
         .catch((error: Error) => {

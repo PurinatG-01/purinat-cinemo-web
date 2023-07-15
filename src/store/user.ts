@@ -23,16 +23,22 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    setUserToken: (state, action: PayloadAction<string>) => {
+    login: (state, action: PayloadAction<string>) => {
+      if (!action.payload) return
       const decoded = jwt_decode<DecodedJWT>(action.payload)
       state.JWT = action.payload
       state.username = decoded.username
       state.userId = decoded.userId
     },
+    logout: (state) => {
+      state.JWT = ""
+      state.username = ""
+      state.userId = 0
+    },
   },
 })
 
-export const { setUserToken } = userSlice.actions
+export const { login, logout } = userSlice.actions
 
 export const getJWT = (state: RootState) => state.user.JWT
 export const getUsername = (state: RootState) => state.user.username
