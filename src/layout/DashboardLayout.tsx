@@ -107,7 +107,7 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
       <Typography
         component="h1"
         variant="h4"
-        style={{ textAlign: "center", fontWeight: "bold" }}
+        style={{ padding: "0 48px", textAlign: "center", fontWeight: "bold" }}
       >
         Cinemo Web
       </Typography>
