@@ -1,10 +1,13 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import Button from "@mui/material/Button"
 import Typography from "@mui/material/Typography"
 import TextField from "@mui/material/TextField"
 import useLogin from "../hooks/useLogin"
+import { useNavigate } from "react-router-dom"
 import Alert from "@mui/material/Alert"
 import styled from "styled-components"
+import { useAppSelector } from "../store/hooks"
+import { getJWT } from "../store/user"
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -37,6 +40,13 @@ export default function Login() {
   const [username, setUsername] = useState<string>("")
   const [password, setPassword] = useState<string>("")
   const [error, setError] = useState<string>("")
+  const jwt = useAppSelector(getJWT)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!jwt) return
+    navigate("/dashboard")
+  }, [jwt])
 
   const onInputChange = (type: string, value: string) => {
     setError("")
@@ -53,9 +63,15 @@ export default function Login() {
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!!username && !!password) {
-      login(username, password).catch((error: Error) => {
-        setError(error.message)
-      })
+      login(username, password)
+        .then((data) => {
+          if (data.token) {
+            navigate("/dashboard")
+          }
+        })
+        .catch((error: Error) => {
+          setError(error.message)
+        })
     }
   }
 

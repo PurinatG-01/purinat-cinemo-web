@@ -1,9 +1,14 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useAppSelector } from "../store/hooks"
-import { getJWT, getUsername, getUserId } from "../store/user"
+import { getJWT } from "../store/user"
+import { useNavigate } from "react-router-dom"
 export default function Dashboard() {
   const jwt = useAppSelector(getJWT)
-  const username = useAppSelector(getUsername)
-  const userId = useAppSelector(getUserId)
-  return <div>Dashboard| {jwt} | {username} | {userId}</div>
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (jwt) return
+    navigate("/")
+  }, [])
+  return <div></div>
 }
