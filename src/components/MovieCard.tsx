@@ -66,6 +66,20 @@ const MovieCardActions = styled(CardActions)`
   padding-top: 16px;
 `
 
+const MovieCardMedia = styled(CardMedia)`
+  height: 100vh;
+  max-height: 360px;
+  border-top-left-radius: 4;
+  border-top-right-radius: 4;
+`
+
+const MovieCardContent = styled(CardContent)`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
 export default function MovieCard(props: Props) {
   const { title_en, poster_url, synopsis_en, isFavorite, id } = props
   const { openModal } = useModal()
@@ -92,17 +106,8 @@ export default function MovieCard(props: Props) {
           <FavoriteIcon style={{ color: "pink" }} />
         </FavoriteBadge>
       )}
-      <CardMedia
-        sx={{
-          height: "100vh",
-          maxHeight: "360px",
-          borderTopLeftRadius: 4,
-          borderTopRightRadius: 4,
-        }}
-        image={poster_url}
-        title="green iguana"
-      />
-      <CardContent>
+      <MovieCardMedia image={poster_url} title="green iguana" />
+      <MovieCardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title_en}
         </Typography>
@@ -119,7 +124,7 @@ export default function MovieCard(props: Props) {
             Favorite
           </FavoriteButton>
         </MovieCardActions>
-      </CardContent>
+      </MovieCardContent>
     </MovieCardContainer>
   )
 }
