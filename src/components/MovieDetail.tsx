@@ -86,7 +86,6 @@ export default function MovieDetail(props: Props) {
     toggleFavorite(id)
   }
 
-  console.log(props)
   return movie ? (
     <MovieDetailContainer>
       <MovieCover

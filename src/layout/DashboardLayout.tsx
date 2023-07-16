@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import Box from "@mui/material/Box"
 import Drawer from "@mui/material/Drawer"
@@ -15,6 +15,7 @@ import LogoutIcon from "@mui/icons-material/Logout"
 import useLogin from "../hooks/useLogin"
 import { useNavigate } from "react-router-dom"
 import GlobalModal from "../components/GlobalModal"
+import useInitiateApp from "../hooks/useInitiateApp"
 
 const DashboardLayoutContainer = styled.div`
   display: flex;
@@ -50,6 +51,7 @@ const DrawerButton = styled(Button)`
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
   const { children } = props
+  const { initApp } = useInitiateApp()
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false)
   const { logout } = useLogin()
   const navigate = useNavigate()
@@ -69,6 +71,10 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
     navigate(path)
   }
 
+  useEffect(() => {
+    initApp()
+  }, [])
+  
   const list = () => (
     <Box
       sx={{ width: 250 }}

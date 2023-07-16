@@ -9,7 +9,7 @@ export interface MovieState {
 
 const initialState: MovieState = {
   movieList: [],
-  favoriteMovieList: [2012, 2005],
+  favoriteMovieList: [],
 }
 
 export const movieSlice = createSlice({

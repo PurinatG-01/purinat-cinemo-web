@@ -9,6 +9,7 @@ import styled from "styled-components"
 import { useAppSelector } from "../store/hooks"
 import { getJWT } from "../store/user"
 import { ROUTE_PATH } from "../assets/config/route"
+import CleanLayout from "../layout/CleanLayout"
 
 const LoginPageContainer = styled.div`
   display: flex;
@@ -67,7 +68,7 @@ export default function Login() {
       login(username, password)
         .then((data) => {
           if (data.token) {
-            navigate("/")
+            navigate(ROUTE_PATH.HOME)
           }
         })
         .catch((error: Error) => {
@@ -77,37 +78,39 @@ export default function Login() {
   }
 
   return (
-    <LoginPageContainer>
-      <Form onSubmit={onSubmit}>
-        <PageTitle variant="h4">Cinemo Web</PageTitle>
-        <TextField
-          id="username-input"
-          onChange={(e) => {
-            onInputChange("username", e.target.value)
-          }}
-          label="Username"
-          variant="outlined"
-          value={username}
-        />
-        <TextField
-          id="password-input"
-          type="password"
-          label="Password"
-          variant="outlined"
-          value={password}
-          onChange={(e) => {
-            onInputChange("password", e.target.value)
-          }}
-        />
-        <SubmitButton
-          variant="contained"
-          type="submit"
-          disabled={isLoginLoading}
-        >
-          Sign in
-        </SubmitButton>
-        {!!error && <Alert severity="error">{error}</Alert>}
-      </Form>
-    </LoginPageContainer>
+    <CleanLayout>
+      <LoginPageContainer>
+        <Form onSubmit={onSubmit}>
+          <PageTitle variant="h4">Cinemo Web</PageTitle>
+          <TextField
+            id="username-input"
+            onChange={(e) => {
+              onInputChange("username", e.target.value)
+            }}
+            label="Username"
+            variant="outlined"
+            value={username}
+          />
+          <TextField
+            id="password-input"
+            type="password"
+            label="Password"
+            variant="outlined"
+            value={password}
+            onChange={(e) => {
+              onInputChange("password", e.target.value)
+            }}
+          />
+          <SubmitButton
+            variant="contained"
+            type="submit"
+            disabled={isLoginLoading}
+          >
+            Sign in
+          </SubmitButton>
+          {!!error && <Alert severity="error">{error}</Alert>}
+        </Form>
+      </LoginPageContainer>
+    </CleanLayout>
   )
 }
