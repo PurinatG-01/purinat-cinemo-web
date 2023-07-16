@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useMemo } from "react"
 import axios from "axios"
 import { Movie } from "../model/movie"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
@@ -15,14 +15,8 @@ export default function useMovie() {
   const dispatch = useAppDispatch()
   const movieList = useAppSelector(getMovieList)
   const favoriteMovieList = useAppSelector(getFavoriteMovieList)
-  const [resolvedMovieList, setResolvedMovieList] = useState<MovieCardProps[]>(
-    []
-  )
-  const [resolvedFavoriteMovieList, setResolvedFavoriteMovieList] = useState<
-    MovieCardProps[]
-  >([])
 
-  useEffect(() => {
+  const resolvedMovieList = useMemo<MovieCardProps[]>(() => {
     const list = movieList.map((movie) => {
       const isFavorite = !!favoriteMovieList.find(
         (_movie) => _movie.id === movie.id
@@ -32,15 +26,14 @@ export default function useMovie() {
         isFavorite,
       }
     })
-    setResolvedMovieList(list)
+    return list
   }, [movieList, favoriteMovieList])
-
-  useEffect(() => {
+  const resolvedFavoriteMovieList = useMemo<MovieCardProps[]>(() => {
     const list = favoriteMovieList.map((movie) => ({
       ...movie,
       isFavorite: true,
     }))
-    setResolvedFavoriteMovieList(list)
+    return list
   }, [favoriteMovieList])
 
   const queryMovieList = async () => {
