@@ -7,6 +7,20 @@ import useMovie from "../hooks/useMovie"
 import Alert from "@mui/material/Alert"
 import MovieGridList from "../components/MovieGridList"
 import { ROUTE_PATH } from "../assets/config/route"
+import { LinearProgress } from "@mui/material"
+import styled from "styled-components"
+
+const LoadProgress = styled(LinearProgress)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`
+const AlertError = styled(Alert)`
+  max-width: 240px;
+  margin: 24px auto;
+  width: 100%;
+`
 
 export default function Dashboard() {
   const jwt = useAppSelector(getJWT)
@@ -30,23 +44,13 @@ export default function Dashboard() {
   return (
     <DashboardLayout>
       {isMovieListLoading ? (
-        <span>Loading ...</span>
+        <LoadProgress />
       ) : queryError ? (
-        <Alert
-          severity="error"
-          style={{ maxWidth: 240, margin: "24px auto", width: "100%" }}
-        >
-          {queryError}
-        </Alert>
+        <AlertError severity="error">{queryError}</AlertError>
       ) : movieList.length > 0 ? (
         <MovieGridList movieList={movieList} />
       ) : (
-        <Alert
-          severity="info"
-          style={{ maxWidth: 240, margin: "24px auto", width: "100%" }}
-        >
-          No favorite movie in list
-        </Alert>
+        <AlertError severity="info">No favorite movie in list</AlertError>
       )}
     </DashboardLayout>
   )

@@ -13,6 +13,9 @@ import { useAppDispatch } from "../store/hooks"
 import { toggleFavoriteMovie } from "../store/movie"
 import useModal from "../hooks/useModal"
 import MovieDetail from "./MovieDetail"
+import dayjs from "dayjs"
+import { Chip } from "@mui/material"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 
 const MovieCardContainer = styled(Card)`
   transition: all 0.3s ease-in-out;
@@ -55,6 +58,7 @@ const FavoriteButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   gap: 8px;
   &:focus {
     outline: none;
@@ -64,6 +68,9 @@ const MovieCardActions = styled(CardActions)`
   padding: 0;
   margin-top: auto;
   padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 `
 
 const MovieCardMedia = styled(CardMedia)`
@@ -80,8 +87,13 @@ const MovieCardContent = styled(CardContent)`
   gap: 8px;
 `
 
+const ReleasedDate = styled(Chip)`
+  width: 100%;
+`
+
 export default function MovieCard(props: Props) {
-  const { title_en, poster_url, synopsis_en, isFavorite, id } = props
+  const { title_en, poster_url, synopsis_en, isFavorite, id, release_date } =
+    props
   const { openModal } = useModal()
   const dispatch = useAppDispatch()
 
@@ -123,6 +135,11 @@ export default function MovieCard(props: Props) {
             {isFavorite ? <CheckIcon /> : <FavoriteIcon />}
             Favorite
           </FavoriteButton>
+          <ReleasedDate
+            icon={<CalendarMonthIcon />}
+            label={dayjs(release_date).format("DD MMM YYYY")}
+            color="info"
+          ></ReleasedDate>
         </MovieCardActions>
       </MovieCardContent>
     </MovieCardContainer>
