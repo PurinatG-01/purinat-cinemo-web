@@ -4,9 +4,11 @@ By Purinat Sanbundit
 
 ---
 
-## Info
+## Getting Started
+### Run development
+`yarn dev` or `npm run dev`
+### User authentication
 For user authentication using mocking value from config file.
-
 ```
 loginJwtList = [
   {
