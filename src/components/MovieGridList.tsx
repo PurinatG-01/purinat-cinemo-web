@@ -2,6 +2,7 @@ import React from "react"
 import MovieCard from "./MovieCard"
 import { Movie } from "../model/movie"
 import styled from "styled-components"
+
 const MovieList = styled.ol`
   display: grid;
   grid-template-columns: 1fr;

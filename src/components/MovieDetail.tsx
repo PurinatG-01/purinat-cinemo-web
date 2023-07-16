@@ -10,6 +10,8 @@ import {
   toggleFavoriteMovie,
 } from "../store/movie"
 import { useAppDispatch, useAppSelector } from "../store/hooks"
+import dayjs from "dayjs"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 
 const MovieDetailContainer = styled.section`
   display: flex;
@@ -86,6 +88,7 @@ export default function MovieDetail(props: Props) {
     toggleFavorite(id)
   }
 
+
   return movie ? (
     <MovieDetailContainer>
       <MovieCover
@@ -96,7 +99,15 @@ export default function MovieDetail(props: Props) {
       />
       <MovieDetailInnerContainer>
         <Typography variant="h4">{movie.title_en}</Typography>
-        <Description variant="body1">{movie.synopsis_en}</Description>
+        <Description variant="body2" color="text.secondary">{movie.synopsis_en}</Description>
+        <Typography variant="h6">Released at</Typography>
+        <FlexList>
+          <Chip
+            icon={<CalendarMonthIcon />}
+            label={dayjs(movie.release_date).format("DD MMM YYYY")}
+            color="info"
+          ></Chip>
+        </FlexList>
         <Typography variant="h6">Genre</Typography>
         <FlexList>
           {movie.genre.split("/").map((item, index) => (

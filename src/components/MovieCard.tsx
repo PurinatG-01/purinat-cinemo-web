@@ -13,6 +13,9 @@ import { useAppDispatch } from "../store/hooks"
 import { toggleFavoriteMovie } from "../store/movie"
 import useModal from "../hooks/useModal"
 import MovieDetail from "./MovieDetail"
+import dayjs from "dayjs"
+import { Chip } from "@mui/material"
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 
 const MovieCardContainer = styled(Card)`
   transition: all 0.3s ease-in-out;
@@ -55,6 +58,7 @@ const FavoriteButton = styled(Button)`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
   gap: 8px;
   &:focus {
     outline: none;
@@ -64,10 +68,32 @@ const MovieCardActions = styled(CardActions)`
   padding: 0;
   margin-top: auto;
   padding-top: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+`
+
+const MovieCardMedia = styled(CardMedia)`
+  height: 100vh;
+  max-height: 360px;
+  border-top-left-radius: 4;
+  border-top-right-radius: 4;
+`
+
+const MovieCardContent = styled(CardContent)`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+`
+
+const ReleasedDate = styled(Chip)`
+  width: 100%;
 `
 
 export default function MovieCard(props: Props) {
-  const { title_en, poster_url, synopsis_en, isFavorite, id } = props
+  const { title_en, poster_url, synopsis_en, isFavorite, id, release_date } =
+    props
   const { openModal } = useModal()
   const dispatch = useAppDispatch()
 
@@ -92,17 +118,8 @@ export default function MovieCard(props: Props) {
           <FavoriteIcon style={{ color: "pink" }} />
         </FavoriteBadge>
       )}
-      <CardMedia
-        sx={{
-          height: "100vh",
-          maxHeight: "360px",
-          borderTopLeftRadius: 4,
-          borderTopRightRadius: 4,
-        }}
-        image={poster_url}
-        title="green iguana"
-      />
-      <CardContent>
+      <MovieCardMedia image={poster_url} title="green iguana" />
+      <MovieCardContent>
         <Typography gutterBottom variant="h5" component="div">
           {title_en}
         </Typography>
@@ -118,8 +135,13 @@ export default function MovieCard(props: Props) {
             {isFavorite ? <CheckIcon /> : <FavoriteIcon />}
             Favorite
           </FavoriteButton>
+          <ReleasedDate
+            icon={<CalendarMonthIcon />}
+            label={dayjs(release_date).format("DD MMM YYYY")}
+            color="info"
+          ></ReleasedDate>
         </MovieCardActions>
-      </CardContent>
+      </MovieCardContent>
     </MovieCardContainer>
   )
 }
